@@ -23,9 +23,7 @@ def main():
     telethon=TelethonChecker.get_instance()
     tg=TelegramHelper.get_instance()
     telethon.set_update_handler(update_handler)
-    while 1:
-        pass
-
+    input("Hello Stop")
 def update_handler(update):
     # Update the config to get specific message.
     print(type(update).__name__)
