@@ -13,6 +13,7 @@ class TelegramHelper(object):
         self.api=TelegramAPI(bot_token)
         self.offset=offset # This offset is used to bypass updates.
         self.fetching_update=False # Act like a thread lock to make it thread safe, we don't want to receive multiple duplicate updates
+        self.attempt=0
         pass
 
     @classmethod
@@ -42,7 +43,12 @@ class TelegramHelper(object):
         Get Updates from the telegram server, lock implemented so at one time only one update api can be called.
         :return: the update info
         """
+        if self.attempt>= 5:
+            # Force reset the update status if timeout.
+            self.fetching_update=False
+            self.attempt=0
         if self.fetching_update:
+            self.attempt+=1
             return None
         self.fetching_update=True # Update LOCK
         ### Stuff to do here
