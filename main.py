@@ -27,8 +27,7 @@ def main():
     telethon.set_update_handler(update_handler)
     bot_update=threading.Thread(target=get_bot_updates())
     bot_update.start()
-    while 1:
-        pass
+    input("Hello Stop")
 
 def update_handler(update):
     # Update the config to get specific message.
