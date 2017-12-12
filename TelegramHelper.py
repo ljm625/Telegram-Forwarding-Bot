@@ -52,26 +52,30 @@ class TelegramHelper(object):
             return None
         self.fetching_update=True # Update LOCK
         ### Stuff to do here
-        result = self.api.get('getUpdates', data={"offset": self.offset})
-        for update in result['result']:
-            # print(update)
-            # if update['message']['text']=="/subscribe":
-            #     # Subscribe the user to the list
-            #     print("Here!")
-            #     if update['message']['from']['id'] not in user_list:
-            #         print("Subscribe!")
-            #         send_message(update['message']['from']['id'],"Hello, Thanks for subscribe to this Trading advice Channel. Pls be aware that all the message are just a forwarding of BitMEX Jack and no guarantee at all.")
-            #         user_list.append(update['message']['from']['id'])
-            #         update_userlist()
-            #     else:
-            #         print("Existing")
-            #         send_message(update['message']['from']['id'],"You are already in the list.")
-            # print(update['update_id'])
-            self.offset=update['update_id']+1
-            print("Offset {}".format(self.offset))
-        self.fetching_update=False
-        return result
-
+        try:
+            result = self.api.get('getUpdates', data={"offset": self.offset})
+            for update in result['result']:
+                # print(update)
+                # if update['message']['text']=="/subscribe":
+                #     # Subscribe the user to the list
+                #     print("Here!")
+                #     if update['message']['from']['id'] not in user_list:
+                #         print("Subscribe!")
+                #         send_message(update['message']['from']['id'],"Hello, Thanks for subscribe to this Trading advice Channel. Pls be aware that all the message are just a forwarding of BitMEX Jack and no guarantee at all.")
+                #         user_list.append(update['message']['from']['id'])
+                #         update_userlist()
+                #     else:
+                #         print("Existing")
+                #         send_message(update['message']['from']['id'],"You are already in the list.")
+                # print(update['update_id'])
+                self.offset=update['update_id']+1
+                print("Offset {}".format(self.offset))
+            self.fetching_update=False
+            return result
+        except Exception as e:
+            print("Exception found")
+            self.fetching_update=False
+            return None
 
     def send_message(self,user_id,message):
         """
